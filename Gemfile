@@ -46,7 +46,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-rails'
-  gem 'grade_runner', github: 'firstdraft/grade_runner'
   gem 'web_git', github: 'firstdraft/web_git'
 end
 
@@ -69,7 +68,5 @@ group :test do
 end
 
 gem 'activeadmin', github: 'activeadmin/activeadmin'
-gem 'bootstrap-sass'
 gem 'devise', github: 'plataformatec/devise'
 gem 'jquery-rails'
-gem 'font-awesome-sass', '~> 4.7.0'
