@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  
+  root "topics#index"
+  
   # Routes for the C_vote resource:
   # CREATE
   get "/c_votes/new", :controller => "c_votes", :action => "new"
