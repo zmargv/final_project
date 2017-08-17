@@ -4,9 +4,9 @@ class TopicsController < ApplicationController
 
     render("topics/index.html.erb")
   end
-
+  
   def show
-    @topic = Topic.find(params[:id])
+    @topic = Topic.where(name: params[:name])[0]
 
     render("topics/show.html.erb")
   end
@@ -26,14 +26,14 @@ class TopicsController < ApplicationController
     save_status = @topic.save
 
     if save_status == true
-      redirect_to("/topics/#{@topic.id}", :notice => "Topic created successfully.")
+      redirect_to("/r/#{@topic.name}", :notice => "Topic created successfully.")
     else
       render("topics/new.html.erb")
     end
   end
 
   def edit
-    @topic = Topic.find(params[:id])
+    @topic = Topic.where(name: params[:name])[0]
 
     render("topics/edit.html.erb")
   end
@@ -47,7 +47,7 @@ class TopicsController < ApplicationController
     save_status = @topic.save
 
     if save_status == true
-      redirect_to("/topics/#{@topic.id}", :notice => "Topic updated successfully.")
+      redirect_to("/r/#{@topic.name}", :notice => "Topic updated successfully.")
     else
       render("topics/edit.html.erb")
     end
@@ -58,7 +58,7 @@ class TopicsController < ApplicationController
 
     @topic.destroy
 
-    if URI(request.referer).path == "/topics/#{@topic.id}"
+    if URI(request.referer).path == "/r/#{@topic.name}"
       redirect_to("/", :notice => "Topic deleted.")
     else
       redirect_to(:back, :notice => "Topic deleted.")

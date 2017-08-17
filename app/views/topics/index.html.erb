@@ -19,8 +19,8 @@
         <td><%= topic.name %></td>
         <td><%= topic.subject %></td>
         <td>
-          <a href="/topics/<%= topic.id %>" class="btn btn-primary">Show</a>
-          <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/r/<%= topic.name %>" class="btn btn-primary">Show</a>
+          <a href="/r/<%= topic.name %>/edit" class="btn btn-warning">Edit</a>
           <a href="/delete_topic/<%= topic.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
         </td>
       </tr>

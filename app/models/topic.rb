@@ -16,7 +16,6 @@ class Topic < ApplicationRecord
     has_many :subscribers, :through => :subscriptions, :source => :user
     
     validates :subject, :presence => true
-    validates :subject, :uniqueness => true
     validates :name, :presence => true
     validates :name, :uniqueness => true
 end

@@ -94,10 +94,10 @@ Rails.application.routes.draw do
 
   # READ
   get "/topics", :controller => "topics", :action => "index"
-  get "/topics/:id", :controller => "topics", :action => "show"
+  get "/r/:name", :controller => "topics", :action => "show"
 
   # UPDATE
-  get "/topics/:id/edit", :controller => "topics", :action => "edit"
+  get "/r/:name/edit", :controller => "topics", :action => "edit"
   post "/update_topic/:id", :controller => "topics", :action => "update"
 
   # DELETE
