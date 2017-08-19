@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+      <div class="col-sm-12">
+        <h3>Frontpage</h3>
+      </div>
+  </div>
+  <div class="col-sm-8">
+    <% @posts.each do |post| %>
+    <div class="row">
+      <div class="col-sm-12 panel panel-default">
+        <span>
+          <h6>
+            <%= link_to post.title, "http://"+post.url, :target => "_blank", :only_path => false %>
+          </h6>
+        </span>
+        <span><%= post.body %></span>
+        <span>
+          <ul class="list-inline">
+            <li><p>test1</p></li>
+            <li><p>test2</p></li>
+          </ul>
+        </span>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>

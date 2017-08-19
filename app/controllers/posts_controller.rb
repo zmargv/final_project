@@ -1,4 +1,17 @@
 class PostsController < ApplicationController
+  def frontpage
+    @posts = Post.all
+
+    render("posts/stream.html.erb")
+  end
+  
+  def subscriptions
+    @topics = current_user.topics
+    @posts = @topics.map{|tpc| tpc.posts}.flatten
+    
+    render("posts/stream.html.erb")
+  end
+  
   def index
     @posts = Post.all
 
