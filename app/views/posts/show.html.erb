@@ -41,7 +41,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-          <h3><a href="../r/<%= @post.topic.name %>"><%= @post.topic.name %></a></h3>
+          <h3><b><a href="../r/<%= @post.topic.name %>"><%= @post.topic.name %></a></b></h3>
         </div>
     </div>
     <div class="row">
@@ -117,8 +117,17 @@
         </div>
         <div class="col-sm-2">
           <span class="helper"></span>
-          <% thumb = LinkThumbnailer.generate("http://"+@post.url) %>
-          <img src="<%= thumb.images.first.src.to_s %>" width="100%" height ="100%">
+          <!-- Attempt to get thumbnail -->
+          <% begin %>
+          <% thumb = LinkThumbnailer.generate("http://"+post.url) %>
+          <% rescue => err %>
+          <% logger.error err.message %>
+          <% end %>
+          <% if thumb.blank? %>
+            <%= image_tag "imgPlaceholder1.png", :style => "width:100%; height:100%;" %>
+          <% else %>
+            <img src="<%= thumb.images.first.src.to_s %>" width="100%" height ="100%">
+          <% end %>
         </div>
       </div>
     </div>

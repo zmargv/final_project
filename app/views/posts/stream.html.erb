@@ -37,17 +37,31 @@
   #post-title {
     margin-top: 7px;
   }
+  .form-horizontal .form-group {
+    margin-left:0px !important;
+    margin-right:0px !important;
+  }
+  .section, .panel {
+    margin-bottom: 5px;
+  }
 </style>
 <div class="container">
   <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-6">
         <% if params[:topic_name].blank? and @topics.blank? %>
-          <h3>Frontpage</h3>
+          <h3><b>Frontpage</b></h3>
         <% elsif @topic.blank? %>
-          <h3>My Subscriptions</h3>
+          <h3><b>My Subscriptions</b></h3>
         <% else %>
-          <h3>r/<%= params[:topic_name] %></h3>
+          <h3><b>r/<%= params[:topic_name] %></b></h3>
         <% end %>
+        <small></small>
+      </div>
+      <div class="col-sm-4">
+        <!-- Modal example -->
+        <h3 style="margin-bottom:0px; margin-top:15px">
+          <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#myModal">New Post</button>
+        </h3>
       </div>
   </div>
   <div class="col-sm-10">
@@ -125,11 +139,90 @@
         </div>
         <div class="col-sm-2">
           <span class="helper"></span>
+          <!-- Attempt to get thumbnail -->
+          <% begin %>
           <% thumb = LinkThumbnailer.generate("http://"+post.url) %>
-          <img src="<%= thumb.images.first.src.to_s %>" width="100%" height ="100%">
+          <% rescue => err %>
+          <% logger.error err.message %>
+          <% end %>
+          <% if thumb.blank? %>
+            <%= image_tag "imgPlaceholder1.png", :style => "width:100%; height:100%;" %>
+          <% else %>
+            <img src="<%= thumb.images.first.src.to_s %>" width="100%" height ="100%">
+          <% end %>
         </div>
       </div>
     </div>
     <% end %>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header" style="padding-bottom:0px">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>Create New Post</b></h4>
+      </div>
+      <div class="modal-body" style="padding-left:10px">
+        <!-- Validation failure messages -->
+        
+        <% if !@new_post.blank? %>
+          <% if @new_post.errors.any? %>
+            <% @new_post.errors.full_messages.each do |message| %>
+              <div class="alert alert-dismissable alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <%= message %>
+              </div>
+            <% end %>
+          <% end %>
+        <% else %>  
+          <% @new_post = Post.new %>
+        <% end %>
+        <form action="/create_post" method="post" class="form-horizontal">
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+          
+          <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user.id %>">
+    
+          <!-- Label and input for topic_id -->
+          <div class="form-group">
+            <label for="topic_id" class="control-label"></br>Topic</label>
+            <select id="topic_id" name="topic_id" class="form-control">
+              <%= options_from_collection_for_select(Topic.all, :id, :name) %>
+            </select>
+          </div>
+    
+          <!-- Label and input for title -->
+          <div class="form-group">
+            <label for="title" class="control-label">Title</label>
+            <textarea id="title" name="title" placeholder="Title" class="form-control" rows="3"><%= @new_post.title %></textarea>
+          </div>
+    
+          <!-- Label and input for body -->
+          <div class="form-group">
+            <label for="body" class="control-label">Body</label>
+            <textarea id="body" name="body" placeholder="Body" class="form-control" rows="3"><%= @new_post.body %></textarea>
+          </div>
+    
+          <!-- Label and input for url -->
+          <div class="form-group">
+            <label for="url" class="control-label">Url</label>
+            <input type="text" id="url" name="url" placeholder="Url" class="form-control" value="<%= @new_post.url %>">
+          </div>
+          
+          <div class="modal-footer">
+            <button class="btn btn-default">
+              Create Post
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
   </div>
 </div>

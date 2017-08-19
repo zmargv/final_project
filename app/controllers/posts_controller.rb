@@ -51,7 +51,7 @@ class PostsController < ApplicationController
     if save_status == true
       redirect_to("/posts/#{@post.id}", :notice => "Post created successfully.")
     else
-      render("posts/new.html.erb")
+      render("posts/stream.html.erb")
     end
   end
 
