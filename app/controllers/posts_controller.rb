@@ -12,6 +12,13 @@ class PostsController < ApplicationController
     render("posts/stream.html.erb")
   end
   
+  def topic_specific
+    @topic = Topic.where(:name => params[:topic_name])[0]
+    @posts = @topic.posts
+    
+    render("posts/stream.html.erb")
+  end
+  
   def index
     @posts = Post.all
 

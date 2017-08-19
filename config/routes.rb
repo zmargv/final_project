@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   
   root "posts#frontpage"
   get "/my_stream", :controller => "posts", :action => "subscriptions"
+  get "/r/:topic_name", :controller => "posts", :action => "topic_specific"
   
   # Routes for the Vote resource:
   # CREATE

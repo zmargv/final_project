@@ -18,6 +18,9 @@ class VotesController < ApplicationController
   end
 
   def create
+    if Vote.exists?(:user_id => params[:user_id],:voteable_id => params[:voteable_id],:voteable_type => params[:voteable_type])
+      Vote.where(:user_id => params[:user_id],:voteable_id => params[:voteable_id],:voteable_type => params[:voteable_type]).map{|item| item.destroy}
+    end
     @vote = Vote.new
 
     @vote.up = params[:up]
@@ -61,11 +64,13 @@ class VotesController < ApplicationController
     @vote = Vote.find(params[:id])
 
     @vote.destroy
-
-    if URI(request.referer).path == "/votes/#{@vote.id}"
-      redirect_to("/", :notice => "Vote deleted.")
-    else
-      redirect_to(:back, :notice => "Vote deleted.")
-    end
+    
+    redirect_to("/", :notice => "Vote deleted.")
+    
+    #if URI(request.referer).path == "/votes/#{@vote.id}"
+    #  redirect_to("/", :notice => "Vote deleted.")
+    #else
+    #  redirect_to(:back, :notice => "Vote deleted.")
+    #end
   end
 end
