@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  root "posts#frontpage"
+  get "/my_stream", :controller => "posts", :action => "subscriptions"
+  get "/r/:topic_name", :controller => "posts", :action => "topic_specific"
+  
   # Routes for the Vote resource:
   # CREATE
   get "/votes/new", :controller => "votes", :action => "new"
@@ -16,8 +20,6 @@ Rails.application.routes.draw do
   # DELETE
   get "/delete_vote/:id", :controller => "votes", :action => "destroy"
   #------------------------------
-
-  root "topics#index"
 
   # Routes for the Comment resource:
   # CREATE
