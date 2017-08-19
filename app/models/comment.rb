@@ -13,7 +13,8 @@
 class Comment < ApplicationRecord
     belongs_to :user
     belongs_to :post
-    has_many :c_votes, :dependent => :destroy
+    #has_many :c_votes, :dependent => :destroy
+    has_many :votes, as: :voteable, :dependent => :destroy
     
     validates :body, :presence => true
 end
