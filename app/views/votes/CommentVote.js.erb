@@ -1,0 +1,2 @@
+$('#cv-<%= params[:voteable_id] %>').empty();
+$('#cv-<%= params[:voteable_id] %>').append('<%= j render :partial => 'votes/CommentVote', :locals => { :comment => Comment.find(params[:voteable_id]) } %>');

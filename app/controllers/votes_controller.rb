@@ -1,4 +1,44 @@
 class VotesController < ApplicationController
+  respond_to :html, :js
+  
+  def post_vote_js
+    if Vote.exists?(:user_id => params[:user_id],:voteable_id => params[:voteable_id],:voteable_type => params[:voteable_type])
+      Vote.where(:user_id => params[:user_id],:voteable_id => params[:voteable_id],:voteable_type => params[:voteable_type]).map{|item| item.destroy}
+    else
+      @vote = Vote.new
+
+      @vote.up = params[:up]
+      @vote.user_id = params[:user_id]
+      @vote.voteable_id = params[:voteable_id]
+      @vote.voteable_type = params[:voteable_type]
+  
+      @vote.save
+    end
+    
+    respond_to do |f|
+      f.js { render('votes/PostVote.js.erb') }
+    end
+  end
+  
+  def comment_vote_js
+    if Vote.exists?(:user_id => params[:user_id],:voteable_id => params[:voteable_id],:voteable_type => params[:voteable_type])
+      Vote.where(:user_id => params[:user_id],:voteable_id => params[:voteable_id],:voteable_type => params[:voteable_type]).map{|item| item.destroy}
+    else
+      @vote = Vote.new
+
+      @vote.up = params[:up]
+      @vote.user_id = params[:user_id]
+      @vote.voteable_id = params[:voteable_id]
+      @vote.voteable_type = params[:voteable_type]
+  
+      @vote.save
+    end
+    
+    respond_to do |f|
+      f.js { render('votes/CommentVote.js.erb') }
+    end
+  end
+  
   def index
     @votes = Vote.all
 

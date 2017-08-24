@@ -47,53 +47,9 @@
     <div class="row">
         <div class="col-sm-10 panel panel-default">
         <div id="vote-container" class="col-sm-1">
-          <% if @post.votes.exists?(:user_id => current_user.id, :up => 1) %>
-          <div id="inside">
-            <form action="/delete_vote/<%= @post.votes.where(:user_id => current_user.id, :up => 1)[0].id %>" method="get" _lpchecked="1">
-              <button class="btn btn-link" style="color:gold">
-                <i class="glyphicon glyphicon-chevron-up"></i>
-              </button>
-            </form>
-          </div>
-          <% else %>
-          <div id="inside">
-            <form action="/create_vote" method="post" _lpchecked="1">
-              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-              <input type="hidden" name="voteable_id" value="<%=@post.id%>">
-              <input type="hidden" name="voteable_type" value="Post">
-              <input type="hidden" name="user_id" value="<%=current_user.id%>">
-              <input type="hidden" name="up" value="1">
-              <button class="btn btn-link" style="color:blue">
-                <i class="glyphicon glyphicon-chevron-up"></i>
-              </button>
-            </form>
-          </div>
-          <% end %>
-          
-          <div id="inside"><h6 id="votes"><%= @post.votes.map{|vote| vote.up}.flatten.sum %></h6></div>
-          
-          <% if @post.votes.exists?(:user_id => current_user.id, :up => -1) %>
-          <div id="inside">
-            <form action="/delete_vote/<%= @post.votes.where(:user_id => current_user.id, :up => -1)[0].id %>" method="get" _lpchecked="1">
-              <button class="btn btn-link" style="color:red">
-                <i class="glyphicon glyphicon-chevron-down"></i>
-              </button>
-            </form>
-          </div>
-          <% else %>
-          <div id="inside">
-            <form action="/create_vote" method="post" _lpchecked="1">
-              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-              <input type="hidden" name="voteable_id" value="<%=@post.id%>">
-              <input type="hidden" name="voteable_type" value="Post">
-              <input type="hidden" name="user_id" value="<%=current_user.id%>">
-              <input type="hidden" name="up" value="-1">
-              <button class="btn btn-link" style="color:blue">
-                <i class="glyphicon glyphicon-chevron-down"></i>
-              </button>
-            </form>
-          </div>
-          <% end %>
+          <span id="pv-<%= @post.id %>">
+            <%= render :partial => 'votes/PostVote', :locals => { :post => @post } %>
+          </span>
         </div>
         <div id="post-body" class="col-sm-9">
           <span>
@@ -154,53 +110,9 @@
             <% @post.comments.each do |comment| %>
             <li class="media">
               <div class="col-sm-1">
-                <% if comment.votes.exists?(:user_id => current_user.id, :up => 1) %>
-                <div id="inside">
-                  <form action="/delete_vote/<%= comment.votes.where(:user_id => current_user.id, :up => 1)[0].id %>" method="get" _lpchecked="1">
-                    <button class="btn btn-link" style="color:gold">
-                      <i class="glyphicon glyphicon-chevron-up"></i>
-                    </button>
-                  </form>
-                </div>
-                <% else %>
-                <div id="inside">
-                  <form action="/create_vote" method="post" _lpchecked="1">
-                    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-                    <input type="hidden" name="voteable_id" value="<%=comment.id%>">
-                    <input type="hidden" name="voteable_type" value="Comment">
-                    <input type="hidden" name="user_id" value="<%=current_user.id%>">
-                    <input type="hidden" name="up" value="1">
-                    <button class="btn btn-link" style="color:blue">
-                      <i class="glyphicon glyphicon-chevron-up"></i>
-                    </button>
-                  </form>
-                </div>
-                <% end %>
-                
-                <div id="inside"><h6 id="votes"><%= comment.votes.map{|vote| vote.up}.flatten.sum %></h6></div>
-                
-                <% if comment.votes.exists?(:user_id => current_user.id, :up => -1) %>
-                <div id="inside">
-                  <form action="/delete_vote/<%= comment.votes.where(:user_id => current_user.id, :up => -1)[0].id %>" method="get" _lpchecked="1">
-                    <button class="btn btn-link" style="color:red">
-                      <i class="glyphicon glyphicon-chevron-down"></i>
-                    </button>
-                  </form>
-                </div>
-                <% else %>
-                <div id="inside">
-                  <form action="/create_vote" method="post" _lpchecked="1">
-                    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-                    <input type="hidden" name="voteable_id" value="<%=comment.id%>">
-                    <input type="hidden" name="voteable_type" value="Comment">
-                    <input type="hidden" name="user_id" value="<%=current_user.id%>">
-                    <input type="hidden" name="up" value="-1">
-                    <button class="btn btn-link" style="color:blue">
-                      <i class="glyphicon glyphicon-chevron-down"></i>
-                    </button>
-                  </form>
-                </div>
-                <% end %>
+                <span id="cv-<%= comment.id %>">
+                  <%= render :partial => 'votes/CommentVote', :locals => { :comment => comment } %>
+                </span>
               </div>
               <div class="col-sm-11">
                 <h6 class="media-heading">
