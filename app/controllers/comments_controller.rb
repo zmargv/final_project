@@ -24,13 +24,9 @@ class CommentsController < ApplicationController
     @comment.user_id = params[:user_id]
     @comment.post_id = params[:post_id]
 
-    save_status = @comment.save
+    @comment.save
 
-    if save_status == true
-      redirect_to("/comments/#{@comment.id}", :notice => "Comment created successfully.")
-    else
-      render("comments/new.html.erb")
-    end
+    redirect_to("/")
   end
 
   def edit

@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
   
   root "posts#frontpage"
-  get "/my_stream", :controller => "posts", :action => "subscriptions"
-  get "/r/:topic_name", :controller => "posts", :action => "topic_specific"
   
   post "/create_vote", :controller => "votes", :action => "create"
   get "/delete_vote/:id", :controller => "votes", :action => "destroy"
+  
+  get "/my_stream", :controller => "posts", :action => "subscriptions"
+  get "/r/:topic_name", :controller => "posts", :action => "topic_specific"
   
   post "/create_comment", :controller => "comments", :action => "create"
   get "/delete_comment/:id", :controller => "comments", :action => "destroy"
@@ -15,6 +16,10 @@ Rails.application.routes.draw do
   get "/delete_post/:id", :controller => "posts", :action => "destroy"
   
   ## TODO: ##
+  get "/topics/demo", :controller => "topics", :action => "demo"
+  post "/subscribe", :controller => "subscriptions", :action => "create"
+  post "/unsubscribe", :controller => "subscriptions", :action => "unsubscribe"
+  
   get "/topics", :controller => "topics", :action => "index"
   post "/create_topic", :controller => "topics", :action => "create"
   

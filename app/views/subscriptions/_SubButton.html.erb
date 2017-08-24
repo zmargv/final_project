@@ -1,0 +1,18 @@
+<% if !topic.subscribers.include?(current_user) %>
+  <span id="sb-<%=topic.id%>" class="badge badge-default badge-pill">
+    <form name="subscribe" action="/subscribe" method="post" data-remote="true">
+    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="user_id" id="user_id" value=<%= current_user.id %>/>
+    <input type="hidden" name="topic_id" id="topic_id" value=<%= topic.id %>/>
+    <button id="sb-<%=topic.id%>" class="subscribe-badge">subscribe</button>
+    </form>
+  </span>
+<% else %>
+  <span id="sb-<%=topic.id%>" class="badge badge-default badge-pill">
+    <form name="unsubscribe" action="/unsubscribe" method="post" data-remote="true">
+    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="sub_id" id="sub_id" value=<%= Subscription.where(:user_id => current_user.id).where(:topic_id => topic.id)[0].id %>/>
+    <button class="subscribe-badge">unsubscribe</button>
+    </form>
+  </span>
+<% end %>

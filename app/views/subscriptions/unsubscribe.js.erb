@@ -1,0 +1,1 @@
+$('#sb-<%= @subscription.topic_id %>').replaceWith('<%= j render :partial => 'subscriptions/SubButton', :locals => { :topic => Topic.find(@subscription.topic_id) } %>');

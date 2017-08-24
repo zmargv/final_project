@@ -1,4 +1,18 @@
 class SubscriptionsController < ApplicationController
+  respond_to :html, :js
+  
+  def unsubscribe
+    @subscription = Subscription.find(params[:sub_id])
+
+    delete_status = @subscription.destroy;
+    
+    if delete_status == true
+      respond_to do |f|
+        f.js {render('subscriptions/unsubscribe.js.erb')}
+      end
+    end
+  end
+  
   def index
     @subscriptions = Subscription.all
 
@@ -24,11 +38,11 @@ class SubscriptionsController < ApplicationController
     @subscription.topic_id = params[:topic_id]
 
     save_status = @subscription.save
-
+    
     if save_status == true
-      redirect_to("/subscriptions/#{@subscription.id}", :notice => "Subscription created successfully.")
-    else
-      render("subscriptions/new.html.erb")
+      respond_to do |f|
+        f.js {render('subscriptions/subscribe.js.erb')}
+      end
     end
   end
 

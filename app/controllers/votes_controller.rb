@@ -28,13 +28,9 @@ class VotesController < ApplicationController
     @vote.voteable_id = params[:voteable_id]
     @vote.voteable_type = params[:voteable_type]
 
-    save_status = @vote.save
-
-    if save_status == true
-      redirect_to("/votes/#{@vote.id}", :notice => "Vote created successfully.")
-    else
-      render("votes/new.html.erb")
-    end
+    @vote.save
+    
+    redirect_to("/")
   end
 
   def edit

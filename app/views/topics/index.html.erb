@@ -2,6 +2,13 @@
   a {
     text-decoration: none !important
   }
+  .subscribe-badge {
+    border: unset !important;
+    padding: unset !important;
+    background-image: unset !important;
+    background-color: unset !important;
+  }
+  
 </style>
 
 <div class="row">
@@ -19,10 +26,12 @@
       <h3><b><%= sbj %></b></h3>
       <% topics = Topic.where(:subject => sbj) %>
       <% topics.each do |topic| %>
-          <a href= "/r/<%= topic.name %>" class="list-group-item justify-content-between list-group-item-action">
-            <%= topic.name %>
+          <li class="list-group-item justify-content-between list-group-item-action">
+            <a href= "/r/<%= topic.name %>"><%= topic.name %></a>
+            
             <span class="badge badge-default badge-pill"><%= topic.posts.count %> posts</span>
-          </a>
+            <%= render :partial => 'subscriptions/SubButton', :locals => { :topic => topic } %>
+          </li>
       <% end %>
     </ul>
     <% end %>

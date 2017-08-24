@@ -1,5 +1,12 @@
 class TopicsController < ApplicationController
   respond_to :html, :js
+  def demo
+    respond_to do |f|
+      f.html { redirect_to tasks_url }
+      f.js { render('topics/demo.js.erb') }
+    end
+  end
+  
   def get_index
     @topics = Topic.all
   end
