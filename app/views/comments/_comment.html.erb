@@ -1,0 +1,17 @@
+<li id="comment-<%= comment.id %>" class="media">
+  <div class="col-sm-1">
+    <span id="cv-<%= comment.id %>">
+      <%= render :partial => 'votes/CommentVote', :locals => { :comment => comment } %>
+    </span>
+  </div>
+  <div class="col-sm-11">
+    <h6 class="media-heading">
+      <a href="/users/<%= comment.user.id %>"><%= comment.user.username %></a>
+      <small> | <%= time_ago_in_words(comment.created_at) %> ago</small>
+      <% if comment.user_id==current_user.id %>
+        <a href="/delete_comment/<%= comment.id %>" data-remote="true"><i class="fa fa-trash"></i></a>
+      <% end %>
+    </h6>
+    <%= comment.body %>
+  </div>
+</li>

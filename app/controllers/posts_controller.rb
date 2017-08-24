@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   def frontpage
-    @posts = Post.all
+    @posts = Post.all.order('updated_at DESC')
 
     render("posts/stream.html.erb")
   end
@@ -8,21 +8,16 @@ class PostsController < ApplicationController
   def subscriptions
     @topics = current_user.topics
     @posts = @topics.map{|tpc| tpc.posts}.flatten
+    @posts = @posts.sort!{|p| p.updated_at}
     
     render("posts/stream.html.erb")
   end
   
   def topic_specific
     @topic = Topic.where(:name => params[:topic_name])[0]
-    @posts = @topic.posts
+    @posts = @topic.posts.order('updated_at DESC')
     
     render("posts/stream.html.erb")
-  end
-  
-  def index
-    @posts = Post.all
-
-    render("posts/index.html.erb")
   end
 
   def show
@@ -49,33 +44,9 @@ class PostsController < ApplicationController
     save_status = @post.save
 
     if save_status == true
-      redirect_to("/posts/#{@post.id}", :notice => "Post created successfully.")
+      redirect_to("/posts/#{@post.id}")
     else
       render("posts/stream.html.erb")
-    end
-  end
-
-  def edit
-    @post = Post.find(params[:id])
-
-    render("posts/edit.html.erb")
-  end
-
-  def update
-    @post = Post.find(params[:id])
-
-    @post.user_id = params[:user_id]
-    @post.topic_id = params[:topic_id]
-    @post.body = params[:body]
-    @post.title = params[:title]
-    @post.url = params[:url]
-
-    save_status = @post.save
-
-    if save_status == true
-      redirect_to("/posts/#{@post.id}", :notice => "Post updated successfully.")
-    else
-      render("posts/edit.html.erb")
     end
   end
 
@@ -87,7 +58,7 @@ class PostsController < ApplicationController
     if URI(request.referer).path == "/posts/#{@post.id}"
       redirect_to("/", :notice => "Post deleted.")
     else
-      redirect_to(:back, :notice => "Post deleted.")
+      redirect_to("/", :notice => "Post deleted.")
     end
   end
 end
