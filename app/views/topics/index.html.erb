@@ -1,30 +1,30 @@
-<div class="page-header">
-  <h1>
-    Topics
-    <a href="/topics/new" class="btn btn-lg btn-success">New Topic</a>
-  </h1>
+<style>
+  a {
+    text-decoration: none !important
+  }
+</style>
+
+<div class="row">
+<div class="col-sm-6">
+  <h1>Topics</h1>
+</div>
+<div class="col-sm-6"></div>
 </div>
 
 <div class="row">
-  <div class="col-md-12">
-    <table class="table table-striped table-hover">
-      <tr>
-        <th>Name</th>
-        <th>Subject</th>
-        <th>Actions</th>
-      </tr>
-
-      <% @topics.each do |topic| %>
-      <tr>
-        <td><%= topic.name %></td>
-        <td><%= topic.subject %></td>
-        <td>
-          <a href="/r/<%= topic.name %>" class="btn btn-primary">Show</a>
-          <a href="/r/<%= topic.name %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_topic/<%= topic.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-        </td>
-      </tr>
+  <div class="col-sm-6">
+    
+    <% @subjects.each do |sbj| %>
+    <ul class="list-group">
+      <h3><b><%= sbj %></b></h3>
+      <% topics = Topic.where(:subject => sbj) %>
+      <% topics.each do |topic| %>
+          <a href= "/r/<%= topic.name %>" class="list-group-item justify-content-between list-group-item-action">
+            <%= topic.name %>
+            <span class="badge badge-default badge-pill"><%= topic.posts.count %> posts</span>
+          </a>
       <% end %>
-    </table>
+    </ul>
+    <% end %>
   </div>
 </div>

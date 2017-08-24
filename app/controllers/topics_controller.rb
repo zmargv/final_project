@@ -5,6 +5,7 @@ class TopicsController < ApplicationController
   end
   def index
     @topics = Topic.all
+    @subjects = @topics.map{|tpc| tpc.subject}.uniq
 
     render("topics/index.html.erb")
   end
