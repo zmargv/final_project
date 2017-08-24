@@ -1,0 +1,2 @@
+$('#pv-<%= params[:voteable_id] %>').empty();
+$('#pv-<%= params[:voteable_id] %>').append('<%= j render :partial => 'votes/PostVote', :locals => { :post => Post.find(params[:voteable_id]) } %>');

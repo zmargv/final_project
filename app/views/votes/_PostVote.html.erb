@@ -1,0 +1,57 @@
+<% if post.votes.exists?(:user_id => current_user.id, :up => 1) %>
+    <div id="inside">
+    <form action="/post_vote" method="post" _lpchecked="1" data-remote="true">
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="voteable_id" value="<%=post.id%>">
+      <input type="hidden" name="voteable_type" value="Post">
+      <input type="hidden" name="user_id" value="<%=current_user.id%>">
+      <input type="hidden" name="up" value="1">
+      <button class="btn btn-link" style="color:gold">
+        <i class="glyphicon glyphicon-chevron-up"></i>
+      </button>
+    </form>
+    </div>
+<% else %>
+    <div id="inside">
+    <form action="/post_vote" method="post" _lpchecked="1" data-remote="true">
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="voteable_id" value="<%=post.id%>">
+      <input type="hidden" name="voteable_type" value="Post">
+      <input type="hidden" name="user_id" value="<%=current_user.id%>">
+      <input type="hidden" name="up" value="1">
+      <button class="btn btn-link" style="color:blue">
+        <i class="glyphicon glyphicon-chevron-up"></i>
+      </button>
+    </form>
+    </div>
+<% end %>
+
+<div id="inside"><h6 id="votes"><%= post.votes.map{|vote| vote.up}.flatten.sum %></h6></div>
+
+<% if post.votes.exists?(:user_id => current_user.id, :up => -1) %>
+    <div id="inside">
+    <form action="/post_vote" method="post" _lpchecked="1" data-remote="true">
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="voteable_id" value="<%=post.id%>">
+      <input type="hidden" name="voteable_type" value="Post">
+      <input type="hidden" name="user_id" value="<%=current_user.id%>">
+      <input type="hidden" name="up" value="-1">
+      <button class="btn btn-link" style="color:red">
+        <i class="glyphicon glyphicon-chevron-down"></i>
+      </button>
+    </form>
+    </div>
+<% else %>
+    <div id="inside">
+    <form action="/post_vote" method="post" _lpchecked="1" data-remote="true">
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="voteable_id" value="<%=post.id%>">
+      <input type="hidden" name="voteable_type" value="Post">
+      <input type="hidden" name="user_id" value="<%=current_user.id%>">
+      <input type="hidden" name="up" value="-1">
+      <button class="btn btn-link" style="color:blue">
+        <i class="glyphicon glyphicon-chevron-down"></i>
+      </button>
+    </form>
+    </div>
+<% end %>

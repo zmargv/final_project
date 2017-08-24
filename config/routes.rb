@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   
   root "posts#frontpage"
   
+  post "/post_vote", :controller => "votes", :action => "post_vote_js"
+  post "/comment_vote", :controller => "votes", :action => "comment_vote_js"
+  
   post "/create_vote", :controller => "votes", :action => "create"
   get "/delete_vote/:id", :controller => "votes", :action => "destroy"
   
@@ -15,10 +18,11 @@ Rails.application.routes.draw do
   get "/posts/:id", :controller => "posts", :action => "show"
   get "/delete_post/:id", :controller => "posts", :action => "destroy"
   
-  ## TODO: ##
-  get "/topics/demo", :controller => "topics", :action => "demo"
   post "/subscribe", :controller => "subscriptions", :action => "create"
   post "/unsubscribe", :controller => "subscriptions", :action => "unsubscribe"
+  
+  ## TODO: ##
+  get "/topics/demo", :controller => "topics", :action => "demo"
   
   get "/topics", :controller => "topics", :action => "index"
   post "/create_topic", :controller => "topics", :action => "create"
